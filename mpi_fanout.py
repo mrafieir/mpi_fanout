@@ -133,7 +133,15 @@ def run_tasks(task_list):
 
 
 def _process_tasks(my_task_list):
-    return [ t.func(*t.args, **t.kwds) for t in my_task_list ]
+    ret = []
+    for t in my_task_list:
+        try:
+            a = t.func(*t.args, **t.kwds)
+        except:
+            a = None
+        ret.append(a)
+    return ret
+    # return [ t.func(*t.args, **t.kwds) for t in my_task_list ]
 
 
 def exit():
