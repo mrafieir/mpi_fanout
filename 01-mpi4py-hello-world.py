@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # This toy program tests that the standard python library 'mpi4py'
 # is working.  (It doesn't use mpi_fanout.)
@@ -11,4 +11,4 @@ from mpi4py import MPI
 rank = MPI.COMM_WORLD.Get_rank()
 size = MPI.COMM_WORLD.Get_size()
 
-sys.stdout.write('hello world %d/%d\n' % (rank+1, size))
+sys.stdout.write(f'hello world {rank+1}/{size}\n')

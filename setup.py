@@ -1,4 +1,4 @@
-# python setup.py install --prefix=$HOME
+# python3 setup.py install --prefix=$HOME
 
 from setuptools import setup
 

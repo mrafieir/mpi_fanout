@@ -21,11 +21,11 @@ don't do anything else.
        mpi_fanout.init()
 
        # "Fan out" 200 tasks over workers.  Each task computes one value of n^2.
-       task_list = [ mpi_fanout.task(f,n) for n in xrange(200) ]
+       task_list = [ mpi_fanout.task(f,n) for n in range(200) ]
        return_values = mpi_fanout.run_tasks(task_list)
 
        # The result is equivalent to just computing all n^2 values on the master.
-       assert return_values == [ n**2 for n in xrange(200) ]
+       assert return_values == [ n**2 for n in range(200) ]
 
        # Without putting this at the end, the program will hang!
        mpi_fanout.exit()
@@ -83,7 +83,7 @@ def init(silent=False):
 
     if mpi_rank == 0:
         if not silent:
-            print 'mpi_fanout: number of MPI tasks =', mpi_size
+            print(f'mpi_fanout: number of MPI tasks = {mpi_size}')
         return
 
     # Main worker loop
@@ -121,14 +121,14 @@ def run_tasks(task_list):
     assert mpi_rank == 0
     
     # "Unflatten" 1-d task_list to 2-d list-of-lists (where outer index is MPI task, inner index is task)
-    tasks_2d = [task_list[i::mpi_size] for i in xrange(mpi_size)]
+    tasks_2d = [task_list[i::mpi_size] for i in range(mpi_size)]
     
     my_tasks = MPI.COMM_WORLD.scatter(tasks_2d, root=0)
     my_rvals = _process_tasks(my_tasks)
     rvals_2d = MPI.COMM_WORLD.gather(my_rvals, root=0)
 
     # Flatten rvals_2d (list of lists) to a 1-d list of return values.
-    return_values = [ rvals_2d[i%mpi_size][i//mpi_size] for i in xrange(len(task_list)) ]
+    return_values = [ rvals_2d[i%mpi_size][i//mpi_size] for i in range(len(task_list)) ]
     return return_values
 
 
